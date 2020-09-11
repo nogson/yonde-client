@@ -1,24 +1,53 @@
 <template>
-  <div class="container">
-    <div>
-     ああああ
+  <section class="two-columns">
+    <div class="talks">
+<!--      <search />-->
+      <talks/>
     </div>
-  </div>
+    <div class="create-talk">
+      <create-talk />
+    </div>
+  </section>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+    import {Vue, Component} from 'nuxt-property-decorator'
+    import { appStore } from '~/store'
+    import CreateTalk from "~/components/CreateTalk.vue";
+    import Talks from "~/components/Talks.vue";
+    import Search from "~/components/Search.vue";
 
-export default Vue.extend({})
+    @Component({
+        components: {
+            Search,
+            Talks,
+            CreateTalk,
+        },
+    })
+    export default class extends Vue {
+
+        tags:string[] = []
+
+        async created() {
+            await appStore.getTags()
+            this.tags = appStore.tags
+        }
+    }
+
 </script>
 
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
+<style scoped lang="scss">
+  .two-columns {
+    display: flex;
+
+    .talks {
+      flex: 1;
+      padding: $size-l;
+    }
+
+    .create-talk {
+      width: 350px;
+      background: $color-gray-3;
+    }
+  }
 </style>

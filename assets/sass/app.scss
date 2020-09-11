@@ -1,5 +1,23 @@
+@import '~bulma/sass/utilities/initial-variables';
 @import "variables";
+@import "~bulma";
 
-.mb_m {
+.mb-xs {
+  margin-bottom: $size-xs !important;
+}
+
+.mb-s {
+  margin-bottom: $size-s !important;
+}
+
+.mb-m {
   margin-bottom: $size-m !important;
+}
+
+.font-s{
+  font-size: $font-size-s;
+}
+
+.font-xs{
+  font-size: $font-size-xs;
 }

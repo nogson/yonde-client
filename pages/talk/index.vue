@@ -1,24 +1,7 @@
 <template>
   <section class="section">
-
     <div class="container">
-      <div>
-        <comment/>
-        <div class="field is-grouped btn-group">
-          <div class="control">
-            <button class="button is-rounded is-outlined is-primary">
-              <span class="icon is-small"><i class="fas fa-play"></i></span>
-              <span>すべて再生</span>
-            </button>
-          </div>
-          <div class="control">
-            <button class="button is-rounded is-primary">
-              <span class="icon is-small"><i class="fas fa-plus"></i></span>
-              <span @click="submit">追加</span>
-            </button>
-          </div>
-        </div>
-      </div>
+      <talk v-for="item in talks" :key="item.id" :item="item"/>
     </div>
   </section>
 </template>
@@ -28,24 +11,22 @@
 
     @Component({
         components: {
+            Talk:() => import('~/components/Talk.vue'),
             Comment: () => import('~/components/Comment.vue')
         },
     })
     export default class extends Vue {
-      submit() {
-        this.$axios.$post('api/talk')
-      }
+
+        talks = null
+
+        async created() {
+            const res = await this.$axios.$get('api/talk')
+            this.talks = res.talks
+        }
+
     }
 </script>
 
 <style scoped lang="scss">
-  .btn-group {
-    button {
-      width: 150px;
-    }
 
-    > *:nth-child(1) {
-      margin-left: auto;
-    }
-  }
 </style>

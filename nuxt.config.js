@@ -38,7 +38,9 @@ export default {
   ** Plugins to load before mounting the App
   ** https://nuxtjs.org/guide/plugins
   */
-  plugins: [],
+  plugins: [
+    '@/plugins/axios-accessor',
+  ],
   /*
   ** Auto import components
   ** See https://nuxtjs.org/api/configuration-components
@@ -56,7 +58,8 @@ export default {
   modules: [
     // Doc: https://github.com/nuxt-community/modules/tree/master/packages/bulma
     '@nuxtjs/bulma',
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/style-resources'
   ],
   axios: {
     baseURL: 'http://localhost/'
@@ -67,6 +70,11 @@ export default {
         set: '@fortawesome/free-solid-svg-icons',
         icons: ['fas']
       }
+    ]
+  },
+  styleResources: {
+    scss: [
+      '~assets/sass/variables.scss'
     ]
   },
   /*
@@ -81,5 +89,8 @@ export default {
         }
       }
     },
+    transpile: [
+      /typed-vuex/,
+    ],
   }
 }
