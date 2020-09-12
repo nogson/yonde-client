@@ -27,19 +27,22 @@
       <span class="tag" v-for="tag in item.tags">#{{tag.name}}</span>
       </div>
       <div class="talk-buttons">
-        <button @click="speak" class="button is-primary is-outlined">
+        <button class="button is-primary is-outlined">
         <span class="icon is-small">
           <i class="fas fa-share"></i>
         </span>
         </button>
-        <button @click="speak" class="button is-primary is-outlined">
+        <button class="button is-primary is-outlined">
         <span class="icon is-small">
           <i class="fas fa-download"></i>
         </span>
         </button>
-        <button @click="speak" class="button is-primary">
-        <span class="icon is-small">
+        <button @click="togglePlay" class="button is-primary">
+        <span v-if="!isSpeaking" class="icon is-small">
           <i class="fas fa-play"></i>
+        </span>
+          <span v-else class="icon is-small">
+          <i class="fas fa-stop"></i>
         </span>
         </button>
       </div>
@@ -58,20 +61,42 @@
     export default class Talk extends Vue {
         isSpeaking: boolean = false
         speaker = new Speaker()
+        speakCount:number = 0
 
         @Prop({default: null})
         item: ITalk;
 
+        created() {
+            this.speaker.utterThis.addEventListener('end',()=> {
+                this.speakCount ++
+                if(this.speakCount === this.item.comments.length) {
+                    this.isSpeaking = false
+                    this.speakCount = 0
+                }
+            })
+
+        }
+
+        togglePlay() {
+            this.speakCount = 0
+            if(this.isSpeaking) {
+                this.cancel()
+            }else {
+                this.speak()
+            }
+
+            this.isSpeaking = !this.isSpeaking
+        }
+
         // Component methods can be declared as instance methods
         speak(): void {
             this.speaker.speakAll(this.item.comments)
-            this.isSpeaking = true
             const res = this.$axios.$post('api/add_play_count', {id: this.item.id})
         }
 
         cancel(): void {
-            this.isSpeaking = false
             this.speaker.cancel()
+            this.speakCount = 0
         }
 
     }

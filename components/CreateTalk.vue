@@ -12,7 +12,7 @@
       <div class="control">
         <input class="input" type="text" v-model="tags">
       </div>
-      <comment v-for="item in comments" :kye="item.id" :item.sync="item"/>
+      <comment v-for="(item,index) in comments" :kye="index" :item.sync="item" :index="index" @remove="removeComment"/>
       <div class="comment-btns">
         <button @click="speak" class="button is-rounded is-outlined">
           <span class="icon is-small"><i class="fas fa-play"></i></span>
@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="talk-btns">
-      <button :disabled="isLoading" @click="createTalk" class="button is-rounded is-primary">
+      <button :disabled="isLoading || disabledBtn" @click="createTalk" class="button is-rounded is-primary">
               <span class="icon is-small">
                 <i v-if="!isLoading" class="fas fa-check"></i>
                 <i v-else="isLoading" class="fas fa-spinner fa-pulse"></i>
@@ -37,10 +37,10 @@
 </template>
 
 <script lang="ts">
-    import {Vue, Component,Emit} from 'nuxt-property-decorator'
+    import {Vue, Component, Emit} from 'nuxt-property-decorator'
     import Speaker from '~/assets/js/Speaker.ts'
     import {IComment} from '@/models/Comment.ts'
-    import { appStore } from '~/store'
+    import {appStore} from '~/store'
 
 
     @Component({
@@ -56,18 +56,22 @@
         isLoading: boolean = false
         speaker = new Speaker()
 
+        mounted() {
+            this.addComment()
+        }
+
         @Emit('created-talk')
         async createTalk() {
             this.isLoading = true
             await this.$axios.$post('api/talk', {
                 theme: this.theme,
-                tags:this.tags.split(','),
-                comments: this.comments
+                tags: this.tags !== '' ? this.tags.split(',') : [],
+                comments: this.comments.filter(d => d.content !== '')
             })
             this.isLoading = false
             this.comments = []
             this.theme = ''
-            this.tags= ''
+            this.tags = ''
             this.addComment() // リセット用
 
             appStore.getTalks()
@@ -83,13 +87,20 @@
                 content: '',
                 voice_type: 0,
                 rate: 1,
-                avatar:1
+                avatar: 1
             }
             this.comments.push(comment)
         }
 
-        mounted() {
-            this.addComment()
+        removeComment(index: number) {
+            if (this.comments.length > 0) {
+                this.comments.splice(index)
+            }
+        }
+
+        get disabledBtn() {
+            const hasComment = this.comments.find(d => d.content !== '')
+            return !this.theme || !hasComment
         }
     }
 </script>
@@ -101,6 +112,7 @@
 
     .talk-btns {
       margin-top: $size-s;
+
       button {
         width: 100%;
       }
@@ -113,6 +125,7 @@
 
     button {
       flex: 1;
+
       &:first-child {
         margin-right: $size-xs;
       }

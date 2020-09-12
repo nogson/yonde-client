@@ -14,7 +14,6 @@
         avatarId: number
 
         get avatar() {
-            console.log(this.avatarId,AVATARS.find(d => d.id === this.avatarId))
           return AVATARS.find(d => d.id === this.avatarId)
         }
 

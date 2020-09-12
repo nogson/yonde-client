@@ -30,7 +30,7 @@
       </div>
     </div>
     <div class="comment-nav">
-      <span class="icon is-small">
+      <span @click="$emit('remove',index)" class="icon is-small">
         <i class="fas fa-times"></i>
       </span>
       <span @click="speak" class="icon is-small">
@@ -75,13 +75,14 @@
         isModalOpen: boolean = false
 
         @Prop()
-        item: IComment;
+        item: IComment
 
+        @Prop()
+        index: number
 
         speak() {
             this.speaker.speak(this.item)
         }
-
 
         modalToggle() {
             this.isModalOpen = !this.isModalOpen
