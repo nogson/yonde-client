@@ -1,18 +1,17 @@
 <template>
   <section class="two-columns">
     <div class="talks">
-<!--      <search />-->
+      <!--      <search />-->
       <talks/>
     </div>
     <div class="create-talk">
-      <create-talk />
+      <create-talk/>
     </div>
   </section>
 </template>
 
 <script lang="ts">
     import {Vue, Component} from 'nuxt-property-decorator'
-    import { appStore } from '~/store'
     import CreateTalk from "~/components/CreateTalk.vue";
     import Talks from "~/components/Talks.vue";
     import Search from "~/components/Search.vue";
@@ -25,13 +24,6 @@
         },
     })
     export default class extends Vue {
-
-        tags:string[] = []
-
-        async created() {
-            await appStore.getTags()
-            this.tags = appStore.tags
-        }
     }
 
 </script>

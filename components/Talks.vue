@@ -5,8 +5,12 @@
       <i class="fas fa-3x fa-spinner fa-pulse has-text-grey-light"></i>
       </span>
     </div>
-    <div v-else class="talk-item" v-for="item in talks" :key="item.id">
-      <talk :item="item"/>
+    <div v-else-if="hasTalks" >
+      <h2 v-if="selectedTag" class="selected-tag title is-5"># {{selectedTag.name}}({{selectedTag.count}})</h2>
+      <talk class="talk-item" v-for="item in talks" :key="item.id" :item="item"/>
+    </div>
+    <div v-else class="no-item">
+      <p>表示できるおしゃべりがありません</p>
     </div>
   </div>
 </template>
@@ -15,6 +19,7 @@
     import {Vue, Component} from 'nuxt-property-decorator'
     import {appStore} from '~/store'
     import {ITalk} from '~/models/Talk'
+    import {ITag} from "~/models/Tag";
 
     @Component({
         components: {
@@ -35,12 +40,20 @@
             this.getTalks()
         }
 
-        get talks() {
+        get talks(): ITalk[] {
             return appStore.talks
         }
 
-        get loadingFlag() {
+        get loadingFlag(): boolean {
             return appStore.loading
+        }
+
+        get hasTalks(): boolean {
+            return appStore.talks.length > 0
+        }
+
+        get selectedTag():ITag | null {
+            return appStore.selectedTag
         }
     }
 </script>
@@ -51,8 +64,25 @@
       margin-bottom: $size-l;
     }
   }
+
   .preloader {
     text-align: center;
-    padding: $size-xl 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .no-item {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+  }
+
+  .selected-tag {
+    margin-bottom: $size-l;
+    font-weight: bold;
   }
 </style>

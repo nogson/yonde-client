@@ -33,6 +33,9 @@
         <span>登録</span>
       </button>
     </div>
+    <div class="ogp" ref="ogp">
+      <ogp :theme="theme" :comments="comments"/>
+    </div>
   </div>
 </template>
 
@@ -41,11 +44,15 @@
     import Speaker from '~/assets/js/Speaker.ts'
     import {IComment} from '@/models/Comment.ts'
     import {appStore} from '~/store'
-
+    import h2c from 'html2canvas'
+    import Comment from "~/components/Comment.vue"
+    import Ogp from '~/components/Ogp.vue'
+    import {ITalk} from "~/models/Talk"
 
     @Component({
         components: {
-            Comment: () => import('~/components/Comment.vue')
+            Comment,
+            Ogp
         },
     })
     export default class CreateTalk extends Vue {
@@ -55,27 +62,51 @@
         comments: IComment[] = []
         isLoading: boolean = false
         speaker = new Speaker()
+        ogpItem: ITalk | null = null
 
         mounted() {
             this.addComment()
+
         }
 
         @Emit('created-talk')
         async createTalk() {
             this.isLoading = true
-            await this.$axios.$post('api/talk', {
+
+            const ogpImg = await this.createOgp()
+            console.log(ogpImg)
+            const res = await this.$axios.$post('api/talk', {
                 theme: this.theme,
                 tags: this.tags !== '' ? this.tags.split(',') : [],
+                ogp_img: ogpImg,
                 comments: this.comments.filter(d => d.content !== '')
             })
+
+            await appStore.getTalks()
+            await appStore.getTags()
+
             this.isLoading = false
             this.comments = []
             this.theme = ''
             this.tags = ''
             this.addComment() // リセット用
+        }
 
-            appStore.getTalks()
-            appStore.getTags()
+        createOgp() {
+
+            return new Promise((resolve) => {
+                h2c(this.$refs.ogp).then((canvas: HTMLCanvasElement) => {
+                    canvas.toBlob((blob) => {
+                        const reader = new FileReader()
+                        reader.readAsDataURL(blob)
+                        reader.onload = () => {
+                            return resolve(reader.result)
+                        }
+                    })
+                })
+            })
+
+
         }
 
         speak() {
@@ -130,5 +161,11 @@
         margin-right: $size-xs;
       }
     }
+  }
+
+  .ogp {
+    position: absolute;
+    top: -2000px;
+    left: 0px;
   }
 </style>

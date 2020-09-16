@@ -28,7 +28,7 @@
     box-sizing: border-box;
   }
 
-  html,body{
+  html, body {
     height: 100vh;
   }
 
@@ -74,23 +74,34 @@
     }
   }
 
-  .two-columns{
+  .two-columns {
     display: flex;
     min-height: 100vh;
-    .side-nav{
+
+    .side-nav {
       padding: 0;
       width: 200px;
     }
+
     .content {
       flex: 1;
     }
   }
 
 </style>
-<script>
-  import SideNav from "../components/SideNav";
+<script lang="ts">
+    import {Vue, Component} from 'nuxt-property-decorator'
+    import {appStore} from '~/store'
+    import SideNav from "~/components/SideNav.vue";
 
-  export default {
-    components: {SideNav}
-  }
+    @Component({
+        components: {SideNav}
+    })
+
+    export default class extends Vue {
+        created() {
+            appStore.getTags()
+        }
+    }
+
 </script>

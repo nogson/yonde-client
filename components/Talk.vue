@@ -3,7 +3,7 @@
     <h2 class="talk-title title is-5">{{item.theme}}</h2>
     <div class="talk-content">
       <div class="thumbnail">
-        <avatar-img :avatar-id="item.comments[0].avatar" />
+        <avatar-img :avatar-id="item.comments[0].avatar"/>
       </div>
       <div class="talk-comment">{{item.comments[0].content}}</div>
     </div>
@@ -24,9 +24,14 @@
             <i class="fas fa-comment-alt"></i>
         </span> {{item.comment_count}}
       </span>
-      <span class="tag" v-for="tag in item.tags">#{{tag.name}}</span>
+        <span @click="showTalksForTag(tag)" class="tag" v-for="tag in item.tags">#{{tag.name}}</span>
       </div>
       <div class="talk-buttons">
+        <button @click="like" class="button is-primary is-outlined">
+        <span class="icon is-small">
+          <i class="fas fa-heart"></i>
+        </span>
+        </button>
         <button class="button is-primary is-outlined">
         <span class="icon is-small">
           <i class="fas fa-share"></i>
@@ -47,29 +52,38 @@
         </button>
       </div>
     </div>
+    <transition name="fade">
+      <div v-if="isShowLikeAnimation" class="like-animation">
+        <i class="fas fa-heart"></i>
+      </div>
+    </transition>
   </article>
 </template>
 
 <script lang="ts">
     import {Vue, Component, Prop, Watch} from 'nuxt-property-decorator'
     import Speaker from '~/assets/js/Speaker.ts'
-    import {ITalk} from '~/assets/js/interface.ts'
+    import {ITalk} from '~/models/Talk.ts'
+    import {ITag} from '~/models/Tag.ts'
     import AvatarImg from "~/components/AvatarImg.vue";
+    import {appStore} from '~/store'
+
     @Component({
         components: {AvatarImg}
     })
     export default class Talk extends Vue {
         isSpeaking: boolean = false
         speaker = new Speaker()
-        speakCount:number = 0
+        speakCount: number = 0
+        isShowLikeAnimation: boolean = false
 
         @Prop({default: null})
         item: ITalk;
 
         created() {
-            this.speaker.utterThis.addEventListener('end',()=> {
-                this.speakCount ++
-                if(this.speakCount === this.item.comments.length) {
+            this.speaker.utterThis.addEventListener('end', () => {
+                this.speakCount++
+                if (this.speakCount === this.item.comments.length) {
                     this.isSpeaking = false
                     this.speakCount = 0
                 }
@@ -79,9 +93,9 @@
 
         togglePlay() {
             this.speakCount = 0
-            if(this.isSpeaking) {
+            if (this.isSpeaking) {
                 this.cancel()
-            }else {
+            } else {
                 this.speak()
             }
 
@@ -91,12 +105,22 @@
         // Component methods can be declared as instance methods
         speak(): void {
             this.speaker.speakAll(this.item.comments)
-            const res = this.$axios.$post('api/add_play_count', {id: this.item.id})
+            appStore.addPlayCount(this.item.id)
         }
 
         cancel(): void {
             this.speaker.cancel()
             this.speakCount = 0
+        }
+
+        async like() {
+            this.isShowLikeAnimation = true
+            await appStore.like(this.item.id)
+            this.isShowLikeAnimation = false
+        }
+
+        showTalksForTag(tag:ITag) {
+            appStore.getTalksForTag(tag.id)
         }
 
     }
@@ -105,6 +129,7 @@
 
 <style scoped lang="scss">
   .talk {
+    position: relative;
     padding: $size-m;
     border: 3px solid $primary;
     border-radius: 10px;
@@ -126,10 +151,11 @@
     }
 
     .talk-comment {
+      flex: 1;
       position: relative;
       background: $primary-lighten;
       padding: $size-s;
-      border-radius: 100px;
+      border-radius: 20px;
       font-size: $font-size-s;
 
       &::before {
@@ -168,14 +194,47 @@
       margin-right: $size-s;
       font-size: $font-size-xs;
       color: $primary;
+      cursor: pointer;
     }
 
     .talk-buttons {
       display: flex;
 
+      button {
+        border-radius: 100px;
+      }
+
       > * {
         margin-left: $size-xs;
       }
+    }
+
+    .like-animation {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(#FFF, 0.5);
+      left: 0;
+      top: 0;
+      border-radius: 7px;
+
+      i {
+        color: #FFF;
+        font-size: 50px;
+        color: $primary;
+      }
+    }
+
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity .5s;
+    }
+
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
+    {
+      opacity: 0;
     }
   }
 </style>

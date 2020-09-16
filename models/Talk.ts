@@ -6,6 +6,7 @@ export interface ITalk {
     like_count: number,
     play_count: number,
     tags: string,
-    theme: string
+    theme: string,
+    ogp_img:string
 }
 

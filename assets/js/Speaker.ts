@@ -1,5 +1,5 @@
 import {IComment, ISpeaker} from '@/assets/js/interface.ts'
-import Recorder from '@/assets/js/Recorder.ts'
+// import Recorder from '@/assets/js/Recorder.ts'
 
 export default class Speaker implements ISpeaker {
 
@@ -21,9 +21,10 @@ export default class Speaker implements ISpeaker {
 
     speakAll(comments: IComment[]) {
         // 無操作でAudioContextを作成するとエラーになるのでここで初期化
-        this.recorder = new Recorder()
+        //this.recorder = new Recorder()
+        //this.recorder.start()
+
         let speakCount = 0
-        this.recorder.start()
 
         const speak = () => {
 
@@ -43,9 +44,6 @@ export default class Speaker implements ISpeaker {
                 speakCount++
                 if (speakCount < comments.length) {
                     speak()
-                } else {
-                    const data = this.recorder.stop()
-                    console.log(data)
                 }
             }
         }
@@ -59,7 +57,7 @@ export default class Speaker implements ISpeaker {
     cancel() {
         this.isCancelAll = true
         speechSynthesis.cancel()
-        this.recorder.stop()
+        //this.recorder.stop()
     }
 
 }

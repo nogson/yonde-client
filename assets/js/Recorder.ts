@@ -3,6 +3,7 @@ export default class Recorder {
     recorder: any
     osc: any
     audioData: []
+    audioExtension:any
 
     constructor() {
         this.audioData = []
@@ -17,12 +18,21 @@ export default class Recorder {
 
         this.recorder.addEventListener("dataavailable", (event: BlobEvent) => {
             this.audioData.push(event.data)
-            //this.audioExtension = this.getExtension(e.data.type);
+            this.audioExtension = this.getExtension(event.data.type);
         });
         this.recorder.addEventListener("stop", () => {
             const audioBlob = new Blob(this.audioData, {'type': 'audio/ogg; codecs=opus'});
+            const url = URL.createObjectURL(audioBlob);
+
             console.log(audioBlob)
-            return audioBlob
+
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = Math.floor(Date.now() / 1000) + this.audioExtension;
+            document.body.appendChild(a);
+            a.click();
+
+            //return audioBlob
             //this.save(audioBlob)
         });
 
@@ -35,9 +45,22 @@ export default class Recorder {
 
     stop() {
         console.log('stop')
-        const blob = this.recorder.stop()
-        console.log(blob)
-        return blob
+        this.recorder.stop()
+    }
+
+    getExtension(audioType:any) {
+
+        let extension = 'wav';
+        const matches = audioType.match(/audio\/([^;]+)/);
+
+        if(matches) {
+
+            extension = matches[1];
+
+        }
+
+        return '.'+ extension;
+
     }
 
 }
