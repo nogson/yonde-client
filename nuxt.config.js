@@ -3,7 +3,7 @@ export default {
   ** Nuxt rendering mode
   ** See https://nuxtjs.org/api/configuration-mode
   */
-  mode: 'spa',
+  mode: 'universal',
   /*
   ** Nuxt target
   ** See https://nuxtjs.org/api/configuration-target
@@ -21,7 +21,11 @@ export default {
       {hid: 'description', name: 'description', content: process.env.npm_package_description || ''}
     ],
     link: [
-      {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
+      {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'},
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@300;500;800&family=M+PLUS+Rounded+1c:wght@500;700&display=swap'
+      }
     ]
   },
   /*
@@ -59,7 +63,8 @@ export default {
     // Doc: https://github.com/nuxt-community/modules/tree/master/packages/bulma
     '@nuxtjs/bulma',
     '@nuxtjs/axios',
-    '@nuxtjs/style-resources'
+    '@nuxtjs/style-resources',
+    ['nuxt-webfontloader']
   ],
   axios: {
     baseURL: 'http://localhost/'

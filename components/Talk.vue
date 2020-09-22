@@ -1,13 +1,13 @@
 <template>
   <article class="talk">
-    <h2 class="talk-title title is-5">{{item.theme}}</h2>
+    <h2 class="talk-title title is-5 m_plus_r_700">{{item.theme}}</h2>
     <div class="talk-content">
       <div class="thumbnail">
         <avatar-img :avatar-id="item.comments[0].avatar"/>
       </div>
-      <div class="talk-comment">{{item.comments[0].content}}</div>
+      <div class="talk-comment m_plus_r_300">{{item.comments[0].content}}</div>
     </div>
-    <div class="talk-nav-box">
+    <div class="talk-nav-box m_plus_r_500">
       <div class="talk-status-list">
       <span class="talk-status">
         <span class="icon is-small">
@@ -32,16 +32,16 @@
           <i class="fas fa-heart"></i>
         </span>
         </button>
-        <button class="button is-primary is-outlined">
+        <a class="button is-primary is-outlined">
         <span class="icon is-small">
-          <i class="fas fa-share"></i>
+          <i class="fab fa-facebook-f"></i>
         </span>
-        </button>
-        <button class="button is-primary is-outlined">
+        </a>
+        <a :href="twitterData.dataUrl" target="_blank" class="button is-primary is-outlined">
         <span class="icon is-small">
-          <i class="fas fa-download"></i>
+          <i class="fab fa-twitter"></i>
         </span>
-        </button>
+        </a>
         <button @click="togglePlay" class="button is-primary">
         <span v-if="!isSpeaking" class="icon is-small">
           <i class="fas fa-play"></i>
@@ -73,7 +73,7 @@
     })
     export default class Talk extends Vue {
         isSpeaking: boolean = false
-        speaker = new Speaker()
+        speaker: any
         speakCount: number = 0
         isShowLikeAnimation: boolean = false
 
@@ -81,6 +81,7 @@
         item: ITalk;
 
         created() {
+            this.speaker = new Speaker()
             this.speaker.utterThis.addEventListener('end', () => {
                 this.speakCount++
                 if (this.speakCount === this.item.comments.length) {
@@ -119,8 +120,12 @@
             this.isShowLikeAnimation = false
         }
 
-        showTalksForTag(tag:ITag) {
+        showTalksForTag(tag: ITag) {
             appStore.getTalksForTag(tag.id)
+        }
+
+        get twitterData() {
+            return {dataUrl: `https://twitter.com/share?original_referer=${location.href}talk/${this.item.id}`}
         }
 
     }
@@ -200,7 +205,7 @@
     .talk-buttons {
       display: flex;
 
-      button {
+      .button {
         border-radius: 100px;
       }
 

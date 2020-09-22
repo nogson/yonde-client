@@ -61,10 +61,11 @@
         tags: string = ''
         comments: IComment[] = []
         isLoading: boolean = false
-        speaker = new Speaker()
+        speaker :any
         ogpItem: ITalk | null = null
 
         mounted() {
+            this.speaker = new Speaker()
             this.addComment()
 
         }
@@ -110,7 +111,7 @@
         }
 
         speak() {
-            this.speaker.speakAll(this.comments)
+            // this.speaker.speakAll(this.comments)
         }
 
         addComment() {

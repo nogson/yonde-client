@@ -1,6 +1,6 @@
 <template>
   <section id="sidenav">
-    <h1 class="logo">LOGO</h1>
+    <h1 class="logo"><img src="@/assets/images/logo_1.png" /></h1>
     <nav>
       <ul class="tags">
         <li @click="showTalksForTag(tag)" v-for="tag in tags" class="tag tile">#{{tag.name}}<span>{{tag.count}}</span>
@@ -32,6 +32,10 @@
     .logo {
       margin-bottom: $size-l;
       font-size: $font-size-l;
+      text-align: center;
+      img {
+        width: 120px;
+      }
     }
 
     width: 100%;

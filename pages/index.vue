@@ -24,6 +24,11 @@
         },
     })
     export default class extends Vue {
+        head() {
+            return {
+                title: 'AAAAAA'
+            }
+        }
     }
 
 </script>

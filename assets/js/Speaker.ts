@@ -5,8 +5,7 @@ export default class Speaker implements ISpeaker {
 
     isCancelAll: boolean = false
     recorder: any
-    utterThis:any = new SpeechSynthesisUtterance()
-
+    utterThis: any = new SpeechSynthesisUtterance()
 
     speak(comment: IComment) {
         this.utterThis.text = comment.content
