@@ -32,12 +32,12 @@
           <i class="fas fa-heart"></i>
         </span>
         </button>
-        <a class="button is-primary is-outlined">
+        <a :href="shareData.facebook" target="_blank" rel="nofollow" class="button is-primary is-outlined">
         <span class="icon is-small">
           <i class="fab fa-facebook-f"></i>
         </span>
         </a>
-        <a :href="twitterData.dataUrl" target="_blank" class="button is-primary is-outlined">
+        <a :href="shareData.twitter" target="_blank" class="button is-primary is-outlined">
         <span class="icon is-small">
           <i class="fab fa-twitter"></i>
         </span>
@@ -124,8 +124,12 @@
             appStore.getTalksForTag(tag.id)
         }
 
-        get twitterData() {
-            return {dataUrl: `https://twitter.com/share?original_referer=${location.href}talk/${this.item.id}`}
+        get shareData() {
+            const shareUrl = `${location.href}talk/${this.item.id}`
+            return {
+                twitter: `https://twitter.com/share?original_referer=${shareUrl}`,
+                facebook: `http://www.facebook.com/share.php?u=${shareUrl}`
+            }
         }
 
     }
@@ -142,6 +146,7 @@
     .talk-title {
       text-align: center;
       margin-bottom: $size-s;
+
     }
 
     .talk-content {

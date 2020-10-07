@@ -5,7 +5,7 @@
       <i class="fas fa-3x fa-spinner fa-pulse has-text-grey-light"></i>
       </span>
     </div>
-    <div v-else-if="hasTalks" >
+    <div v-else-if="hasTalks" class="talks">
       <h2 v-if="selectedTag" class="selected-tag title is-5"># {{selectedTag.name}}({{selectedTag.count}})</h2>
       <talk class="talk-item" v-for="item in talks" :key="item.id" :item="item"/>
     </div>
@@ -84,5 +84,16 @@
   .selected-tag {
     margin-bottom: $size-l;
     font-weight: bold;
+  }
+
+  .talks {
+    display: grid;
+    gap: $size-l;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    > * {
+      margin-bottom: 0 !important;
+    }
+
   }
 </style>

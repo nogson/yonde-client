@@ -61,7 +61,7 @@
         tags: string = ''
         comments: IComment[] = []
         isLoading: boolean = false
-        speaker :any
+        speaker: any
         ogpItem: ITalk | null = null
 
         mounted() {
@@ -96,12 +96,15 @@
         createOgp() {
 
             return new Promise((resolve) => {
-                h2c(this.$refs.ogp).then((canvas: HTMLCanvasElement) => {
+                const ogp = this.$refs.ogp as HTMLImageElement
+                h2c(ogp).then((canvas: HTMLCanvasElement) => {
                     canvas.toBlob((blob) => {
                         const reader = new FileReader()
-                        reader.readAsDataURL(blob)
+                        const blobData:any = blob
+                        reader.readAsDataURL(blobData)
                         reader.onload = () => {
-                            return resolve(reader.result)
+                            const result: any = reader.result
+                            resolve(result)
                         }
                     })
                 })

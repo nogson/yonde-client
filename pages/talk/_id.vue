@@ -26,7 +26,7 @@
         talkData: ITalk
         isShow: boolean = false
 
-        async asyncData({route}) {
+        async asyncData({route}: {route: any}) {
             const talkId = route.params.id
             const data = await appStore.getTalk(talkId)
             return {talkData: data}

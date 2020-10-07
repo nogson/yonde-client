@@ -1,8 +1,6 @@
 <template>
-  <div class="two-columns">
-    <div class="side-nav is-one-quarter">
-      <side-nav/>
-    </div>
+  <div>
+    <common-header />
     <div class="content">
       <Nuxt/>
     </div>

@@ -1,7 +1,7 @@
 <template>
   <section class="talk">
     <div class="talk-content-warp">
-      <div>
+      <div class="talk-content-warp-title">
         <h1 class="talk-title title is-5 m_plus_r_700">{{theme}}</h1>
         <h2 class="talk-disc m_plus_r_300">〜 自動おしゃべりサービス 〜</h2>
       </div>
@@ -51,11 +51,9 @@
 <style scoped lang="scss">
   .talk {
     position: relative;
-    padding: $size-xl;
-    border: 10px solid $primary;
     border-radius: 10px;
     width: 1200px;
-    height: 630px;
+    min-height: 630px;
     background: #FFF;
     background: #FFF url("~@/assets/images/ogp_bg.png") center center;
     box-sizing: border-box;
@@ -74,33 +72,38 @@
       display: block;
     }
 
-    .talk-title {
-      text-align: center;
-      margin-bottom: $size-s;
-      color: $primary;
-      font-size: 32px;
-    }
-
-    .talk-disc {
-      text-align: center;
-      font-size: $size-s;
-      margin: 0 0 $size-xl;
-      color: $primary;
-    }
-
     .talk-content-warp {
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column;
       height: calc(100% - 50px);
+
+      .talk-content-warp-title{
+        width: 100%;
+        background: $primary;
+        border-radius: 10px 10px 0 0;
+        padding: $size-m 0;
+      }
+      .talk-title {
+        text-align: center;
+        margin-bottom: $size-s;
+        color: #FFF !important;
+        font-size: 32px;
+      }
+
+      .talk-disc {
+        text-align: center;
+        font-size: $size-s;
+        color: #FFF;
+      }
     }
 
     .talk-content {
       display: flex;
       align-items: center;
       margin-bottom: $size-m;
-      padding: 0 $size-xl;
+      padding: $size-xl;
       .thumbnail {
         margin-right: $size-l;
         width: 120px;

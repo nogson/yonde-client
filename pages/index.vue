@@ -1,6 +1,7 @@
 <template>
   <section class="two-columns">
     <div class="talks">
+      <tags />
       <!--      <search />-->
       <talks/>
     </div>
@@ -15,12 +16,14 @@
     import CreateTalk from "~/components/CreateTalk.vue";
     import Talks from "~/components/Talks.vue";
     import Search from "~/components/Search.vue";
+    import Tags from "~/components/Tags.vue";
 
     @Component({
         components: {
             Search,
             Talks,
             CreateTalk,
+            Tags
         },
     })
     export default class extends Vue {
