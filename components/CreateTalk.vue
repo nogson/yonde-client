@@ -1,18 +1,29 @@
 <template>
   <div class="crate-talk-box">
-    <h2 class="talk-title title is-5">おしゃべりを投稿</h2>
-    <div class="field mb-s">
-      <label class="label font-s">テーマ</label>
-      <div class="control">
-        <input class="input" type="text" v-model="theme">
+    <div class="crate-talk-box-ttl">
+      <h2 class="talk-title title is-5">おしゃべりを投稿</h2>
+      <span @click="$emit('close')" class="icon is-small">
+        <i class="fas fa-times"></i>
+      </span>
+    </div>
+
+    <div v-if="crateTalkBoxBtnWrapElm" ref="overflowBox" class="crate-talk-box-overflow" :style="overflowBoxStyle">
+      <div class="field mb-s">
+        <label class="label font-s">テーマ</label>
+        <div class="control">
+          <input class="input" type="text" v-model="theme">
+        </div>
+      </div>
+      <div class="field mb-s">
+        <label class="label font-s">タグ</label>
+        <div class="control">
+          <input class="input" type="text" v-model="tags">
+        </div>
+        <comment v-for="(item,index) in comments" :kye="index" :item.sync="item" :index="index"
+                 @remove="removeComment"/>
       </div>
     </div>
-    <div class="field mb-s">
-      <label class="label font-s">タグ</label>
-      <div class="control">
-        <input class="input" type="text" v-model="tags">
-      </div>
-      <comment v-for="(item,index) in comments" :kye="index" :item.sync="item" :index="index" @remove="removeComment"/>
+    <div ref="crateTalkBoxBtnWrap">
       <div class="comment-btns">
         <button @click="speak" class="button is-rounded is-outlined">
           <span class="icon is-small"><i class="fas fa-play"></i></span>
@@ -23,15 +34,15 @@
           <span>追加</span>
         </button>
       </div>
-    </div>
-    <div class="talk-btns">
-      <button :disabled="isLoading || disabledBtn" @click="createTalk" class="button is-rounded is-primary">
+      <div class="talk-btns">
+        <button :disabled="isLoading || disabledBtn" @click="createTalk" class="button is-rounded is-primary">
               <span class="icon is-small">
                 <i v-if="!isLoading" class="fas fa-check"></i>
                 <i v-else="isLoading" class="fas fa-spinner fa-pulse"></i>
               </span>
-        <span>登録</span>
-      </button>
+          <span>登録</span>
+        </button>
+      </div>
     </div>
     <div class="ogp" ref="ogp">
       <ogp :theme="theme" :comments="comments"/>
@@ -63,11 +74,18 @@
         isLoading: boolean = false
         speaker: any
         ogpItem: ITalk | null = null
+        crateTalkBoxBtnWrapElm: any = null
+        overflowBox: any = null
+
+        item: ITalk;
 
         mounted() {
             this.speaker = new Speaker()
             this.addComment()
-
+            this.crateTalkBoxBtnWrapElm = this.$refs.crateTalkBoxBtnWrap
+            this.$nextTick(() => {
+                this.overflowBox = this.$refs.overflowBox
+            })
         }
 
         @Emit('created-talk')
@@ -75,7 +93,6 @@
             this.isLoading = true
 
             const ogpImg = await this.createOgp()
-            console.log(ogpImg)
             const res = await this.$axios.$post('api/talk', {
                 theme: this.theme,
                 tags: this.tags !== '' ? this.tags.split(',') : [],
@@ -97,10 +114,13 @@
 
             return new Promise((resolve) => {
                 const ogp = this.$refs.ogp as HTMLImageElement
-                h2c(ogp).then((canvas: HTMLCanvasElement) => {
+                h2c(ogp, {
+                    scrollX: 0,
+                    scrollY: -window.scrollY
+                }).then((canvas: HTMLCanvasElement) => {
                     canvas.toBlob((blob) => {
                         const reader = new FileReader()
-                        const blobData:any = blob
+                        const blobData: any = blob
                         reader.readAsDataURL(blobData)
                         reader.onload = () => {
                             const result: any = reader.result
@@ -114,10 +134,14 @@
         }
 
         speak() {
-            // this.speaker.speakAll(this.comments)
+            this.speaker.speakAll(this.comments)
         }
 
         addComment() {
+
+            if (this.overflowBox) {
+                this.overflowBox.scrollTop = this.overflowBox.scrollHeight
+            }
             const comment = {
                 content: '',
                 voice_type: 0,
@@ -137,6 +161,18 @@
             const hasComment = this.comments.find(d => d.content !== '')
             return !this.theme || !hasComment
         }
+
+        get overflowBoxStyle() {
+            let h = 400
+            if (this.crateTalkBoxBtnWrapElm) {
+                console.log(this.crateTalkBoxBtnWrapElm.clientHeight)
+                h = window.innerHeight - this.crateTalkBoxBtnWrapElm.clientHeight - 22 - 88
+            }
+
+            return {
+                maxHeight: `${h}px`
+            }
+        }
     }
 </script>
 
@@ -154,12 +190,39 @@
     }
   }
 
+  .crate-talk-box-ttl {
+    display: flex;
+    align-items: center;
+    margin-bottom: $size-m;
+    .talk-title{
+      margin-bottom: 0;
+    }
+    >span{
+     margin-left: auto;
+
+      @media screen and (min-width: $sm-over) {
+        display: none;
+      }
+    }
+  }
+
+  .crate-talk-box-overflow {
+    @media screen and (min-width: $sm-over) {
+      max-height: 100% !important;
+    }
+
+    @media screen and (max-width: $sm) {
+      overflow: scroll;
+    }
+    scroll-behavior: smooth;
+  }
+
   .comment-btns {
     display: flex;
-    margin-top: $size-s;
 
     button {
       flex: 1;
+      margin-top: $size-s;
 
       &:first-child {
         margin-right: $size-xs;

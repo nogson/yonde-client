@@ -157,6 +157,9 @@
       .thumbnail {
         margin-right: $size-s;
         width: 70px;
+        @media screen and (max-width:$sm) {
+          width: 50px;
+        }
       }
     }
 
@@ -185,10 +188,17 @@
     .talk-nav-box {
       display: flex;
       align-items: center;
+      @media screen and (max-width:$sm) {
+        display: block;
+      }
     }
 
     .talk-status-list {
       margin-right: auto;
+
+      @media screen and (max-width:$sm) {
+        margin-bottom: $size-xs;
+      }
 
       .talk-status {
         margin-right: $size-s;
@@ -216,6 +226,9 @@
 
       > * {
         margin-left: $size-xs;
+        @media screen and (max-width:$sm) {
+          margin: 0 $size-xs 0 0;
+        }
       }
     }
 

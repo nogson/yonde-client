@@ -52,7 +52,7 @@
             return appStore.talks.length > 0
         }
 
-        get selectedTag():ITag | null {
+        get selectedTag(): ITag | null {
             return appStore.selectedTag
         }
     }
@@ -91,9 +91,19 @@
     gap: $size-l;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto;
+
     > * {
       margin-bottom: 0 !important;
     }
 
+    @media screen and (max-width: $sm) {
+      display: block;
+
+      > * {
+        margin-bottom: $size-l !important;
+      }
+    }
   }
+
+
 </style>
