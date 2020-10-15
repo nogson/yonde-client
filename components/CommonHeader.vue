@@ -1,6 +1,6 @@
 <template>
   <div id="header">
-    <h1 class="logo"><img src="@/assets/images/logo_1.png" /></h1>
+    <h1 class="logo"><img src="@/assets/images/logo.gif" /></h1>
     <p class="header-disc m_plus_r_300">簡単自動おしゃべりサービス</p>
   </div>
 </template>
@@ -19,7 +19,7 @@
     align-items:baseline;
 
     .logo {
-      font-size: $font-size-l;
+      height: 24px;
       img {
         width: 120px;
       }

@@ -6,7 +6,22 @@
     </div>
   </div>
 </template>
+<script lang="ts">
+    import {Vue, Component} from 'nuxt-property-decorator'
+    import {appStore} from '~/store'
+    import SideNav from "~/components/SideNav.vue";
 
+    @Component({
+        components: {SideNav}
+    })
+
+    export default class extends Vue {
+        created() {
+            appStore.getTags()
+        }
+    }
+
+</script>
 <style lang="scss">
   html {
     font-family: 'Source Sans Pro',
@@ -87,19 +102,3 @@
   }
 
 </style>
-<script lang="ts">
-    import {Vue, Component} from 'nuxt-property-decorator'
-    import {appStore} from '~/store'
-    import SideNav from "~/components/SideNav.vue";
-
-    @Component({
-        components: {SideNav}
-    })
-
-    export default class extends Vue {
-        created() {
-            appStore.getTags()
-        }
-    }
-
-</script>

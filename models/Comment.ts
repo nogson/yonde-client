@@ -7,5 +7,6 @@ export interface IComment {
 
 export interface IAvatar {
     id: number,
-    img: string
+    img: string,
+    animationGif: string
 }

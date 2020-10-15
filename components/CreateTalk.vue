@@ -88,7 +88,7 @@
             })
         }
 
-        @Emit('created-talk')
+        @Emit('close')
         async createTalk() {
             this.isLoading = true
 
@@ -108,6 +108,8 @@
             this.theme = ''
             this.tags = ''
             this.addComment() // リセット用
+
+            window.scrollTo(0,0)
         }
 
         createOgp() {
@@ -138,10 +140,6 @@
         }
 
         addComment() {
-
-            if (this.overflowBox) {
-                this.overflowBox.scrollTop = this.overflowBox.scrollHeight
-            }
             const comment = {
                 content: '',
                 voice_type: 0,
@@ -149,6 +147,12 @@
                 avatar: 1
             }
             this.comments.push(comment)
+
+            if (this.overflowBox) {
+                this.$nextTick(() => {
+                    this.overflowBox.scrollTop = this.overflowBox.scrollHeight
+                })
+            }
         }
 
         removeComment(index: number) {
@@ -165,7 +169,6 @@
         get overflowBoxStyle() {
             let h = 400
             if (this.crateTalkBoxBtnWrapElm) {
-                console.log(this.crateTalkBoxBtnWrapElm.clientHeight)
                 h = window.innerHeight - this.crateTalkBoxBtnWrapElm.clientHeight - 22 - 88
             }
 
@@ -194,26 +197,18 @@
     display: flex;
     align-items: center;
     margin-bottom: $size-m;
-    .talk-title{
+
+    .talk-title {
       margin-bottom: 0;
     }
-    >span{
-     margin-left: auto;
 
-      @media screen and (min-width: $sm-over) {
-        display: none;
-      }
+    > span {
+      margin-left: auto;
     }
   }
 
   .crate-talk-box-overflow {
-    @media screen and (min-width: $sm-over) {
-      max-height: 100% !important;
-    }
-
-    @media screen and (max-width: $sm) {
-      overflow: scroll;
-    }
+    overflow: scroll;
     scroll-behavior: smooth;
   }
 

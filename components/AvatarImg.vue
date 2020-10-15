@@ -1,5 +1,5 @@
 <template>
-  <img class="thumbnail" :src="avatar.img">
+  <img class="thumbnail" :src="avatarImg">
 </template>
 
 <script lang="ts">
@@ -10,11 +10,19 @@
     export default class AvatarImg extends Vue {
 
 
-        @Prop({default:1})
+        @Prop({default: 1})
         avatarId: number
 
+        @Prop({default: false})
+        isSpeaking: boolean
+
         get avatar() {
-          return AVATARS.find(d => d.id === this.avatarId)
+            return AVATARS.find(d => d.id === this.avatarId)
+        }
+
+        get avatarImg() {
+            const avatar = this.avatar ? this.avatar : AVATARS[0]
+            return this.isSpeaking ? avatar.animationGif : avatar.img
         }
 
     }

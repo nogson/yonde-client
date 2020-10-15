@@ -38,18 +38,11 @@
 
         isShowBtn: boolean = true
 
-        head() {
-            return {
-                title: 'AAAAAA'
-            }
-        }
-
         addTalk() {
             this.isShowBtn = false
         }
 
         closeCreateTalk() {
-            console.log('ok')
             this.isShowBtn = true
         }
     }
@@ -69,34 +62,26 @@
     }
 
     .create-talk {
-      width: 350px;
       background: $color-gray-3;
-
-      @media screen and (max-width: $sm) {
         position: fixed;
         right: 0;
         top: 0;
         width: 100%;
         height: 100%;
         overflow: hidden;
-      }
     }
 
     .create-btn {
-      display: none;
       position: fixed;
-      right: $size-m;
-      bottom: ($size-m + 50px) * -1;
-      width: 50px;
-      height: 50px;
+      right: $size-s;
+      bottom: ($size-s + 50px) * -1;
+      width: 60px;
+      height: 60px;
       border-radius: 50px;
       background: $primary;
-      border: none;
+      border: 2px solid #FFF;
       color: #FFF;
       box-shadow: 2px 2px 2px rgba(#000, 0.4);
-      @media screen and (max-width: $sm) {
-        display: block;
-      }
 
       &.fade-out {
         animation: fadeOut 0.25s;
@@ -114,19 +99,19 @@
 
   @keyframes fadeOut {
     0% {
-      bottom: $size-m;
+      bottom: $size-s;
     }
     100% {
-      bottom: ($size-m + 50px) * -1;
+      bottom: ($size-s + 50px) * -1;
     }
   }
 
   @keyframes fadeIn {
     0% {
-      bottom: ($size-m + 50px) * -1;
+      bottom: ($size-s + 50px) * -1;
     }
     100% {
-      bottom: $size-m;
+      bottom: $size-s;
     }
   }
 

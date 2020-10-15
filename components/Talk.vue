@@ -3,9 +3,9 @@
     <h2 class="talk-title title is-5 m_plus_r_700">{{item.theme}}</h2>
     <div class="talk-content">
       <div class="thumbnail">
-        <avatar-img :avatar-id="item.comments[0].avatar"/>
+        <avatar-img :avatar-id="item.comments[speakCount].avatar" :is-speaking="isSpeaking" />
       </div>
-      <div class="talk-comment m_plus_r_300">{{item.comments[0].content}}</div>
+      <div class="talk-comment m_plus_r_300">{{item.comments[speakCount].content}}</div>
     </div>
     <div class="talk-nav-box m_plus_r_500">
       <div class="talk-status-list">

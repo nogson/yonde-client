@@ -47,7 +47,7 @@
     background: #FFF;
     padding: $size-l $size-l $size-m;
     border-radius: $size-s;
-
+    margin: 0 $size-m;
     .thumbnails {
       display: flex;
       flex-wrap: wrap;
