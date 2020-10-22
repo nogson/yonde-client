@@ -18,7 +18,27 @@ export default {
     meta: [
       {charset: 'utf-8'},
       {name: 'viewport', content: 'width=device-width, initial-scale=1'},
-      {hid: 'description', name: 'description', content: '簡単自動おしゃべりサービス'}
+      {hid: 'description', name: 'description', content: '簡単自動おしゃべりサービス'},
+      {
+        hid: 'og:url',
+        property: 'og:url',
+        content: 'https://osyaberry-client.herokuapp.com/'
+      },
+      {
+        hid: 'twitter:card',
+        name: 'twitter:card',
+        content: 'summary_large_image'
+      },
+      {
+        hid: 'og:image',
+        property: 'og:image',
+        content: 'https://osyaberry-client.herokuapp.com/ogp.png'
+      },
+      {
+        hid: 'og:type',
+        property: 'og:type',
+        content: 'website'
+      }
     ],
     link: [
       {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'},

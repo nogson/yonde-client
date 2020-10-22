@@ -59,7 +59,7 @@
                     {
                         hid: 'og:url',
                         property: 'og:url',
-                        content: 'http://yahoo.co.jp'
+                        content: 'https://osyaberry-client.herokuapp.com/'
                     },
                     {
                         hid: 'og:image',
