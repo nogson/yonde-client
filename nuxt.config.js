@@ -67,8 +67,8 @@ export default {
     ['nuxt-webfontloader']
   ],
   axios: {
-    // baseURL: 'https://osyaberry-api.herokuapp.com/',
-    baseURL: 'http://localhost/'
+    baseURL: 'https://osyaberry-api.herokuapp.com/',
+    //baseURL: 'http://localhost/'
 
   },
   fontawesome: {

@@ -5,9 +5,11 @@
       <i class="fas fa-3x fa-spinner fa-pulse has-text-grey-light"></i>
       </span>
     </div>
-    <div v-else-if="hasTalks" class="talks">
+    <div v-else-if="hasTalks">
       <h2 v-if="selectedTag" class="selected-tag title is-5"># {{selectedTag.name}}({{selectedTag.count}})</h2>
-      <talk class="talk-item" v-for="item in talks" :key="item.id" :item="item"/>
+      <div class="talks">
+        <talk class="talk-item" v-for="item in talks" :key="item.id" :item="item"/>
+      </div>
     </div>
     <div v-else class="no-item">
       <p>表示できるおしゃべりがありません</p>
@@ -67,7 +69,7 @@
 
   .preloader {
     text-align: center;
-    height: 100vh;
+    height: 80vh;
     display: flex;
     justify-content: center;
     align-items: center;
