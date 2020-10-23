@@ -3,7 +3,7 @@
     <h2 class="talk-title title is-5 m_plus_r_700">{{item.theme}}</h2>
     <div class="talk-content">
       <div class="thumbnail">
-        <avatar-img :avatar-id="item.comments[speakCount].avatar" :is-speaking="isSpeaking" />
+        <avatar-img :avatar-id="item.comments[speakCount].avatar" :is-speaking="isSpeaking"/>
       </div>
       <div class="talk-comment m_plus_r_300">{{item.comments[speakCount].content}}</div>
     </div>
@@ -14,16 +14,16 @@
             <i class="fas fa-play"></i>
         </span> {{item.play_count}}
       </span>
-        <span class="talk-status">
+      <span class="talk-status">
         <span class="icon is-small">
             <i class="fas fa-heart"></i>
         </span> {{item.like_count}}
       </span>
-        <span class="talk-status">
-        <span class="icon is-small">
-            <i class="fas fa-comment-alt"></i>
-        </span> {{item.comment_count}}
-      </span>
+<!--      <span class="talk-status">-->
+<!--        <span class="icon is-small">-->
+<!--            <i class="fas fa-comment-alt"></i>-->
+<!--        </span> {{item.comment_count}}-->
+<!--      </span>-->
         <span @click="showTalksForTag(tag)" class="tag" v-for="tag in item.tags">#{{tag.name}}</span>
       </div>
       <div class="talk-buttons">
@@ -157,7 +157,7 @@
       .thumbnail {
         margin-right: $size-s;
         width: 70px;
-        @media screen and (max-width:$sm) {
+        @media screen and (max-width: $sm) {
           width: 50px;
         }
       }
@@ -188,7 +188,7 @@
     .talk-nav-box {
       display: flex;
       align-items: center;
-      @media screen and (max-width:$sm) {
+      @media screen and (max-width: $sm) {
         display: block;
       }
     }
@@ -196,7 +196,7 @@
     .talk-status-list {
       margin-right: auto;
 
-      @media screen and (max-width:$sm) {
+      @media screen and (max-width: $sm) {
         margin-bottom: $size-xs;
       }
 
@@ -226,7 +226,7 @@
 
       > * {
         margin-left: $size-xs;
-        @media screen and (max-width:$sm) {
+        @media screen and (max-width: $sm) {
           margin: 0 $size-xs 0 0;
         }
       }
