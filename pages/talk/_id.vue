@@ -57,6 +57,11 @@
                         content: this.talkData.theme
                     },
                     {
+                        hid: 'og:description',
+                        property: 'og:description',
+                        content: this.talkData.comments[0].content
+                    },
+                    {
                         hid: 'og:url',
                         property: 'og:url',
                         content: 'https://osyaberry-client.herokuapp.com/'

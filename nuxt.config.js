@@ -20,6 +20,16 @@ export default {
       {name: 'viewport', content: 'width=device-width, initial-scale=1'},
       {hid: 'description', name: 'description', content: '簡単自動おしゃべりサービス'},
       {
+        hid: 'og:title',
+        property: 'og:title',
+        content: 'Oシャベリ'
+      },
+      {
+        hid: 'og:description',
+        property: 'og:description',
+        content: '簡単自動おしゃべりサービス'
+      },
+      {
         hid: 'og:url',
         property: 'og:url',
         content: 'https://osyaberry-client.herokuapp.com/'
