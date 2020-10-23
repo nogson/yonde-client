@@ -127,7 +127,7 @@
         get shareData() {
             const shareUrl = `${location.href}talk/${this.item.id}`
             return {
-                twitter: `https://twitter.com/share?original_referer=${shareUrl}`,
+                twitter: `https://twitter.com/intent/tweet?original_referer=${shareUrl}`,
                 facebook: `http://www.facebook.com/share.php?u=${shareUrl}`
             }
         }
