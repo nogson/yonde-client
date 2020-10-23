@@ -125,10 +125,11 @@
         }
 
         get shareData() {
-            const shareUrl = `${location.href}talk/${this.item.id}`
+            const url = `${location.href}talk/${this.item.id}`
+            const text = `Oシャベリ(簡単自動おしゃべりサービス \n ${this.item.theme} \n `
             return {
-                twitter: `https://twitter.com/intent/tweet?text=${this.item.theme}&url=${shareUrl}`,
-                facebook: `http://www.facebook.com/share.php?u=${shareUrl}`
+                twitter: `https://twitter.com/intent/tweet?text=${text}&url=${url}`,
+                facebook: `http://www.facebook.com/share.php?u=${url}`
             }
         }
 
