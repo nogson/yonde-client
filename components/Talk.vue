@@ -32,7 +32,7 @@
           <i class="fas fa-heart"></i>
         </span>
         </button>
-        <a :href="shareData.facebook" target="_blank" rel="nofollow" class="button is-primary is-outlined">
+        <a :href="shareData.facebook" target="_blank" rel="nofollow noopener noreferrer" class="button is-primary is-outlined">
         <span class="icon is-small">
           <i class="fab fa-facebook-f"></i>
         </span>
@@ -127,7 +127,7 @@
         get shareData() {
             const shareUrl = `${location.href}talk/${this.item.id}`
             return {
-                twitter: `https://twitter.com/intent/tweet?original_referer=${shareUrl}`,
+                twitter: `https://twitter.com/intent/tweet?text=${this.item.theme}&url=${shareUrl}`,
                 facebook: `http://www.facebook.com/share.php?u=${shareUrl}`
             }
         }
