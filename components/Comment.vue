@@ -30,10 +30,10 @@
       </div>
     </div>
     <div class="comment-nav">
-      <span @click="$emit('remove',index)" class="icon is-small">
+      <span @click="$emit('remove',index)" class="icon is-small btn-remove">
         <i class="fas fa-times"></i>
       </span>
-      <span @click="speak" class="icon is-small">
+      <span @click="speak" class="icon is-small btn-speak">
         <i class="fas fa-play"></i>
       </span>
     </div>
@@ -153,5 +153,10 @@
     > *:not(:last-child) {
       margin-right: $size-xs;
     }
+  }
+
+  .btn-speak,
+  .btn-remove {
+    cursor: pointer;
   }
 </style>

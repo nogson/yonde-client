@@ -2,7 +2,7 @@
   <div class="crate-talk-box">
     <div class="crate-talk-box-ttl">
       <h2 class="talk-title title is-5">おしゃべりを投稿</h2>
-      <span @click="$emit('close')" class="icon is-small">
+      <span @click="$emit('close')" class="icon is-small btn-close">
         <i class="fas fa-times"></i>
       </span>
     </div>
@@ -231,5 +231,9 @@
     position: absolute;
     top: -2000px;
     left: 0px;
+  }
+
+  .btn-close{
+    cursor: pointer;
   }
 </style>
