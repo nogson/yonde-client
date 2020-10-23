@@ -126,7 +126,7 @@
 
         get shareData() {
             const url = `${location.href}talk/${this.item.id}`
-            const text = `Oシャベリ(簡単自動おしゃべりサービス \n ${this.item.theme} \n `
+            const text = `【Oシャベリ】簡単自動おしゃべりサービス`
             return {
                 twitter: `https://twitter.com/intent/tweet?text=${text}&url=${url}`,
                 facebook: `http://www.facebook.com/share.php?u=${url}`
@@ -171,6 +171,7 @@
       padding: $size-s;
       border-radius: 20px;
       font-size: $font-size-s;
+      word-break: break-all;
 
       &::before {
         position: absolute;

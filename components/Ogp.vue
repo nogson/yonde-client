@@ -104,6 +104,7 @@
       align-items: center;
       margin-bottom: $size-m;
       padding: $size-xl;
+      word-break: break-all;
       .thumbnail {
         margin-right: $size-l;
         width: 120px;

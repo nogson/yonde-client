@@ -69,7 +69,7 @@
 
   .preloader {
     text-align: center;
-    height: 80vh;
+    height: 65vh;
     display: flex;
     justify-content: center;
     align-items: center;

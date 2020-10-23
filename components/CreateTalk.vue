@@ -117,6 +117,7 @@
 
             return new Promise((resolve) => {
                 const ogp = this.$refs.ogp as HTMLImageElement
+                window.scrollTo(0, 0)
                 h2c(ogp, {
                     scrollX: 0,
                     scrollY: -window.scrollY
