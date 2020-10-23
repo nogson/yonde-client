@@ -76,7 +76,7 @@
   }
 
   .no-item {
-    height: 100vh;
+    height: 65vh;
     display: flex;
     justify-content: center;
     align-items: center;
