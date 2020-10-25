@@ -5,7 +5,26 @@
       <i class="fas fa-3x fa-spinner fa-pulse has-text-grey-light"></i>
       </span>
     </div>
-    <talk v-if="isShow" :item="talkData"/>
+    <div v-if="isShow">
+      <talk :item="talkData"/>
+      <div class="message-content">
+        <h2 class="title is-5">
+          <span class="icon is-small">
+           <i class="fas fa-comment-alt"></i>
+          </span>メッセージ
+        </h2>
+        <message />
+        <div class="message-content-input-box">
+            <input class="input" type="text" v-model="messageItem">
+          <button @click="addMessage" :disabled="messageItem === '' || this.isLoading" class="button is-rounded is-outlined is-primary">
+            <span>
+              <i v-if="!isLoading" class="fas fa-comment-alt"></i>
+              <i v-else="isLoading" class="fas fa-spinner fa-pulse"></i>
+              追加</span>
+          </button>
+        </div>
+      </div>
+    </div>
   </section>
 </template>
 
@@ -14,10 +33,11 @@
     import Talk from "~/components/Talk.vue";
     import {appStore} from '~/store'
     import {ITalk} from "~/models/Talk";
-
+    import Message from "~/components/Message.vue";
 
     @Component({
         components: {
+            Message,
             Talk
         },
     })
@@ -25,8 +45,10 @@
 
         talkData: ITalk
         isShow: boolean = false
+        messageItem:string = ''
+        isLoading:boolean = false
 
-        async asyncData({route}: {route: any}) {
+        async asyncData({route}: { route: any }) {
             const talkId = route.params.id
             const data = await appStore.getTalk(talkId)
             return {talkData: data}
@@ -80,8 +102,18 @@
 
         mounted() {
             this.isShow = true
-            // const talkId = this.$route.params.id
-            // this.talkData = await appStore.getTalk(talkId)
+        }
+
+        async addMessage() {
+           this.isLoading = true
+           await appStore.addMessage({
+                talk_id:this.$route.params.id,
+                message:this.messageItem,
+                avatar_id:this.avatarId
+            })
+
+            this.messageItem = ''
+            this.isLoading = false
         }
 
         get loadingFlag()
@@ -107,10 +139,32 @@
             }
         }
 
+        get avatarId() {
+            return  Math.floor(Math.random() * 4 + 1)
+        }
+
     }
 </script>
 
 <style scoped lang="scss">
+  .message-content {
+    padding: $size-m;
+
+    .icon{
+      margin-right: $size-xs;
+      color: $primary;
+    }
+
+    .message-content-input-box{
+      display: flex;
+      align-items: center;
+      .button{
+        margin-left: $size-xs;
+      }
+
+    }
+  }
+
   .talk-box {
     position: relative;
     padding: $size-l;

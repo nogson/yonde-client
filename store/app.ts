@@ -1,12 +1,15 @@
 import {VuexModule, Module, Mutation, Action, MutationAction} from 'vuex-module-decorators'
 import {ITalk} from '~/models/Talk'
 import {ITag} from '~/models/Tag'
+import {IMessage} from "~/models/Message"
 import {$axios} from '~/utils/api';
+import {appStore} from "~/utils/store-accessor";
 
 @Module({stateFactory: true, namespaced: true, name: 'app'})
 export default class Feed extends VuexModule {
     talks: ITalk[] = []
     tags: ITag[] = []
+    messages:IMessage[] = []
     loading: boolean = false
     selectedTag: ITag | null = null
 
@@ -29,6 +32,11 @@ export default class Feed extends VuexModule {
     @Mutation
     setSelectedTag(id: number) {
         this.selectedTag = this.tags.find(d => d.id === id) || null
+    }
+
+    @Mutation
+    setMessages(messages: IMessage[]) {
+        this.messages = messages
     }
 
     @Action
@@ -92,6 +100,27 @@ export default class Feed extends VuexModule {
         })
 
         this.setTalks(items)
+    }
+
+    @Action
+    async getMessages(id:string) {
+        const res = await $axios.$get(`api/messages/${id}`)
+
+        this.setMessages(res.data)
+    }
+
+    @Action
+    async addMessage(params:IMessage) {
+        const message = await $axios.$post('api/message', params)
+        const data = {
+            talk_id:message.data.talk_id,
+            message:message.data.message,
+            avatar_id:message.data.avatar_id
+        }
+        let messages:IMessage[] = JSON.parse(JSON.stringify(this.messages))
+        messages.unshift(data)
+        console.log(message)
+        this.setMessages(messages)
     }
 
 }

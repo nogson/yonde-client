@@ -27,6 +27,11 @@
         <span @click="showTalksForTag(tag)" class="tag" v-for="tag in item.tags">#{{tag.name}}</span>
       </div>
       <div class="talk-buttons">
+        <button @click="message" class="button is-primary is-outlined">
+        <span class="icon is-small">
+          <i class="fas fa-comment-alt"></i>
+        </span>
+        </button>
         <button @click="like" class="button is-primary is-outlined">
         <span class="icon is-small">
           <i class="fas fa-heart"></i>
@@ -118,6 +123,10 @@
             this.isShowLikeAnimation = true
             await appStore.like(this.item.id)
             this.isShowLikeAnimation = false
+        }
+
+        message() {
+            this.$router.push(`/talk/${this.item.id}`)
         }
 
         showTalksForTag(tag: ITag) {

@@ -11,13 +11,13 @@
 
 
         @Prop({default: 1})
-        avatarId: number
+        avatarId: number|string
 
         @Prop({default: false})
         isSpeaking: boolean
 
         get avatar() {
-            return AVATARS.find(d => d.id === this.avatarId)
+            return AVATARS.find(d => d.id === Number(this.avatarId))
         }
 
         get avatarImg() {

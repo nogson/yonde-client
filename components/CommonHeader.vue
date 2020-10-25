@@ -1,6 +1,6 @@
 <template>
   <div id="header">
-    <h1 class="logo"><img src="@/assets/images/logo.gif" /></h1>
+    <h1 class="logo"><a href="/"><img src="@/assets/images/logo.gif"/></a></h1>
     <p class="header-disc m_plus_r_300">簡単自動おしゃべりサービス</p>
   </div>
 </template>
@@ -16,16 +16,17 @@
     padding: $size-s $size-m;
     box-sizing: border-box;
     display: flex;
-    align-items:baseline;
+    align-items: baseline;
 
     .logo {
       height: 24px;
+
       img {
         width: 120px;
       }
     }
 
-    .header-disc{
+    .header-disc {
       font-size: $font-size-xs;
       margin-left: $size-s;
     }
